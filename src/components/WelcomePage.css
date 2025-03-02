@@ -1,0 +1,199 @@
+.welcome-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ffcce6 0%, #f2e6ff 100%);
+  font-family: 'Pacifico', cursive;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative floral corners */
+.welcome-page::before,
+.welcome-page::after {
+  content: '';
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background-image: url('../assets/decorative/floral-corner.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+}
+
+.welcome-page::before {
+  top: 0;
+  left: 0;
+  transform: rotate(0deg);
+}
+
+.welcome-page::after {
+  bottom: 0;
+  right: 0;
+  transform: rotate(180deg);
+}
+
+.welcome-container {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(255, 102, 178, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-title {
+  color: #ff66b2;
+  font-size: 3rem;
+  margin: 0 0 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Pacifico', cursive;
+}
+
+.polaroid-frame {
+  background: white;
+  padding: 20px;
+  border: 15px solid #ffccff;
+  margin: 20px auto;
+  max-width: 300px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.camera-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  background-image: url('../assets/camera-icon.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.welcome-message {
+  color: #333;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+.start-button {
+  display: inline-block;
+  background: linear-gradient(135deg, #ffcc99 0%, #d4af37 100%);
+  color: white;
+  font-size: 1.2rem;
+  padding: 12px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  margin-top: 30px;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+  font-family: 'Pacifico', cursive;
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.start-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.5s ease;
+}
+
+.start-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 7px 20px rgba(212, 175, 55, 0.5);
+}
+
+.start-button:hover::before {
+  left: 100%;
+}
+
+/* Decorative floating elements */
+.decorative-element {
+  position: absolute;
+  z-index: 0;
+  animation: float 4s ease-in-out infinite alternate;
+}
+
+.sparkle {
+  width: 30px;
+  height: 30px;
+  background-image: url('../assets/decorative/sparkle.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.heart {
+  width: 40px;
+  height: 40px;
+  background-image: url('../assets/decorative/heart.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.sparkle-1 {
+  top: 15%;
+  left: 20%;
+  animation-delay: 0.5s;
+}
+
+.sparkle-2 {
+  top: 70%;
+  right: 15%;
+  animation-delay: 1s;
+}
+
+.sparkle-3 {
+  bottom: 20%;
+  left: 30%;
+  animation-delay: 1.5s;
+}
+
+.heart-1 {
+  top: 25%;
+  right: 25%;
+  animation-delay: 0.7s;
+}
+
+.heart-2 {
+  bottom: 30%;
+  left: 15%;
+  animation-delay: 1.2s;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+  100% {
+    transform: translateY(-15px) rotate(5deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .welcome-title {
+    font-size: 2.5rem;
+  }
+  
+  .polaroid-frame {
+    padding: 15px;
+    border-width: 10px;
+  }
+  
+  .camera-icon {
+    width: 60px;
+    height: 60px;
+  }
+}

@@ -1,0 +1,153 @@
+.collage-maker-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.controls-panel {
+  width: 300px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.controls-panel h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.template-selector,
+.text-controls,
+.emoji-controls,
+.export-controls {
+  margin-bottom: 25px;
+}
+
+.template-buttons {
+  display: grid;
+  gap: 8px;
+}
+
+.template-buttons button {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f8f8f8;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.template-buttons button:hover {
+  background: #eee;
+}
+
+.template-buttons button.active {
+  background: #007bff;
+  color: white;
+  border-color: #0056b3;
+}
+
+.text-controls input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.emoji-grid button {
+  padding: 8px;
+  font-size: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+}
+
+.emoji-grid button:hover {
+  background: #f8f8f8;
+}
+
+.emoji-grid button.active {
+  background: #e3f2fd;
+  border-color: #2196f3;
+}
+
+.export-controls {
+  display: grid;
+  gap: 10px;
+}
+
+.export-controls button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.download-btn {
+  background: #28a745;
+  color: white;
+}
+
+.print-btn {
+  background: #17a2b8;
+  color: white;
+}
+
+.export-controls button:hover {
+  opacity: 0.9;
+}
+
+.layout-selector {
+  margin-bottom: 25px;
+}
+
+.layout-buttons {
+  display: grid;
+  gap: 8px;
+}
+
+.layout-buttons button {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f8f8f8;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.layout-buttons button:hover {
+  background: #eee;
+}
+
+.layout-buttons button.active {
+  background: #007bff;
+  color: white;
+  border-color: #0056b3;
+}
+
+.canvas-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: auto;
+  max-height: 80vh;
+}
+
+canvas {
+  max-width: 100%;
+  height: auto;
+} 

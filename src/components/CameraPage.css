@@ -1,0 +1,968 @@
+.camera-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffcce6 0%, #f2e6ff 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: 'Pacifico', cursive;
+}
+
+.layout-container {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.camera-frame {
+  flex: 0 0 60%;
+  background: #ff99cc;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(255, 102, 178, 0.3);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add decorative bubbles to the camera frame */
+.camera-frame::before,
+.camera-frame::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 0;
+}
+
+.camera-frame::before {
+  width: 100px;
+  height: 100px;
+  top: -30px;
+  left: -30px;
+}
+
+.camera-frame::after {
+  width: 80px;
+  height: 80px;
+  bottom: -20px;
+  right: -20px;
+}
+
+.camera-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: #000;
+  border: 10px solid #ffccff;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-canvas {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-canvas.show {
+  display: block;
+}
+
+.camera-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.side-panel {
+  flex: 0 0 35%;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 600px;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(204, 153, 255, 0.3);
+  position: relative;
+}
+
+/* Add decorative elements to the side panel */
+.side-panel::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  background-image: url('../assets/kitty-icon.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+}
+
+.panel-section {
+  border-bottom: 1px solid #ffccff;
+  padding-bottom: 15px;
+}
+
+.panel-section:last-child {
+  border-bottom: none;
+}
+
+.panel-section h3 {
+  font-family: 'Pacifico', cursive;
+  color: #ff66b2;
+  margin: 0 0 10px 0;
+}
+
+.filter-options,
+.frame-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-button,
+.frame-button {
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 2px solid #ffccff;
+  background: white;
+  font-family: 'Pacifico', cursive;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-button:hover,
+.frame-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(255, 102, 178, 0.2);
+}
+
+.filter-button.active,
+.frame-button.active {
+  background: #ff99cc;
+  color: white;
+  border-color: #ff66b2;
+}
+
+.sticker-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sticker-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  border: 2px solid #ffccff;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.sticker-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(255, 102, 178, 0.2);
+  border-color: #ff66b2;
+}
+
+.sticker-preview {
+  width: 30px;
+  height: 30px;
+}
+
+.text-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.text-options input[type="text"] {
+  padding: 8px;
+  border: 2px solid #ffccff;
+  border-radius: 8px;
+  font-family: 'Pacifico', cursive;
+}
+
+.text-controls-row {
+  display: flex;
+  gap: 10px;
+}
+
+.text-controls-row input[type="color"] {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #ffccff;
+  border-radius: 8px;
+}
+
+.text-controls-row select {
+  flex: 1;
+  padding: 8px;
+  border: 2px solid #ffccff;
+  border-radius: 8px;
+  font-family: 'Pacifico', cursive;
+}
+
+.text-options button {
+  padding: 8px;
+  background: #ff99cc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Pacifico', cursive;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.text-options button:hover {
+  background: #ff66b2;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(255, 102, 178, 0.2);
+}
+
+.timer-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.timer-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toggle-label input {
+  margin-right: 10px;
+}
+
+.timer-options select {
+  width: 100%;
+  padding: 8px;
+  background: white;
+  color: black;
+  border: 2px solid #ffccff;
+  border-radius: 8px;
+  font-family: 'Pacifico', cursive;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 900px) {
+  .layout-container {
+    flex-direction: column;
+  }
+  
+  .camera-frame,
+  .side-panel {
+    flex: none;
+    width: 100%;
+  }
+  
+  .strip-preview-controls {
+    position: fixed;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    width: auto;
+    border-radius: 20px 20px 0 0;
+  }
+  
+  .strip-canvas.show {
+    max-width: 90%;
+    max-height: 60vh;
+  }
+}
+
+.capture-button {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  box-shadow: 0 5px 15px rgba(255, 102, 178, 0.5);
+}
+
+.capture-button:hover {
+  transform: scale(1.1);
+}
+
+.button-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #ff66b2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-circle {
+  width: 60%;
+  height: 60%;
+  border-radius: 50%;
+  background: #ff99cc;
+  border: 2px solid #fff;
+}
+
+.timer-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 5;
+}
+
+.timer-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(255, 153, 204, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: pulse 1s infinite alternate;
+}
+
+.timer-number {
+  font-family: 'Pacifico', cursive;
+  font-size: 48px;
+  color: white;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+.control-panel {
+  position: absolute;
+  top: -60px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px;
+}
+
+.timer-select {
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 2px solid #ffccff;
+  background: white;
+  font-family: 'Pacifico', cursive;
+  cursor: pointer;
+}
+
+.filters-container {
+  display: flex;
+  gap: 10px;
+}
+
+.filter-button {
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 2px solid #ffccff;
+  background: white;
+  font-family: 'Pacifico', cursive;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-button.active {
+  background: #ff99cc;
+  color: white;
+}
+
+.flash-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  opacity: 0;
+  animation: flash 0.3s ease-out;
+  pointer-events: none;
+}
+
+.photo-controls {
+  display: flex;
+  gap: 20px;
+}
+
+.control-button {
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: none;
+  font-family: 'Pacifico', cursive;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.control-button:hover {
+  transform: scale(1.1);
+}
+
+.retake {
+  background: #ff4444;
+  color: white;
+}
+
+.download {
+  background: #4CAF50;
+  color: white;
+}
+
+@keyframes flash {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.effects-panel {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 200px;
+  max-height: 90%;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  border-radius: 10px;
+  overflow-y: auto;
+  z-index: 20;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.effects-section {
+  margin-bottom: 20px;
+}
+
+.effects-section h3 {
+  font-family: 'Pacifico', cursive;
+  color: #8b0000;
+  margin-bottom: 10px;
+}
+
+.frame-buttons,
+.sticker-buttons {
+  display: grid;
+  gap: 8px;
+}
+
+.frame-button,
+.sticker-button {
+  padding: 8px;
+  border: 2px solid #d4af37;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.frame-button.active {
+  background: #d4af37;
+  color: white;
+}
+
+.sticker-button img {
+  width: 30px;
+  height: 30px;
+}
+
+.sticker-container,
+.text-container {
+  position: absolute;
+  cursor: move;
+  user-select: none;
+}
+
+.sticker {
+  width: 50px;
+  height: 50px;
+  display: block;
+}
+
+.sticker-controls {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  display: flex;
+  gap: 5px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.sticker-container:hover .sticker-controls,
+.text-container:hover .sticker-controls {
+  opacity: 1;
+}
+
+.sticker-control {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #d4af37;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.sticker-control.rotate {
+  background: #4CAF50;
+  color: white;
+}
+
+.sticker-control.scale {
+  background: #2196F3;
+  color: white;
+}
+
+.sticker-control.remove {
+  background: #f44336;
+  color: white;
+}
+
+.text-style-controls {
+  display: flex;
+  gap: 5px;
+  margin: 5px 0;
+}
+
+.text-style-controls select {
+  flex: 1;
+  padding: 5px;
+  border: 2px solid #d4af37;
+  border-radius: 5px;
+}
+
+.text-style-controls input[type="range"] {
+  flex: 1;
+}
+
+.text-overlay {
+  position: absolute;
+  font-family: 'Pacifico', cursive;
+  font-size: 24px;
+  cursor: move;
+  user-select: none;
+}
+
+.text-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.text-controls input[type="text"] {
+  padding: 8px;
+  border: 2px solid #d4af37;
+  border-radius: 8px;
+}
+
+.text-controls input[type="color"] {
+  width: 100%;
+  height: 30px;
+  border: 2px solid #d4af37;
+  border-radius: 8px;
+}
+
+.text-controls button {
+  padding: 8px;
+  background: #d4af37;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.bottom-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  z-index: 10;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+  max-width: 70%;
+}
+
+.filter-button {
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 2px solid #d4af37;
+  background: white;
+  font-family: 'Pacifico', cursive;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-button.active {
+  background: #d4af37;
+  color: white;
+}
+
+.effects-toggle {
+  padding: 10px 15px;
+  border-radius: 20px;
+  background: #d4af37;
+  color: white;
+  border: none;
+  font-family: 'Pacifico', cursive;
+  cursor: pointer;
+}
+
+/* New styles for the tabbed interface */
+.camera-controls-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tabs-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.tab-button {
+  padding: 8px 15px;
+  background: transparent;
+  color: white;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: 'Pacifico', cursive;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-button.active {
+  border-bottom: 2px solid #d4af37;
+  color: #d4af37;
+}
+
+.tab-content {
+  width: 100%;
+  padding: 10px 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 15px;
+}
+
+.filter-options,
+.frame-options,
+.sticker-options {
+  display: flex;
+  gap: 10px;
+  padding: 0 10px;
+}
+
+.option-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.option-button:hover {
+  transform: scale(1.1);
+}
+
+.option-button.active {
+  color: #d4af37;
+}
+
+.filter-preview,
+.frame-preview {
+  width: 60px;
+  height: 60px;
+  background: url('../assets/preview-face.jpg');
+  background-size: cover;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.sticker-preview {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 5px;
+}
+
+.text-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.text-input {
+  padding: 10px;
+  border-radius: 20px;
+  border: 2px solid #d4af37;
+  background: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  font-family: 'Pacifico', cursive;
+}
+
+.text-controls-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+.color-picker {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.style-select {
+  padding: 8px;
+  border-radius: 20px;
+  border: 2px solid #d4af37;
+  background: rgba(255, 255, 255, 0.8);
+  font-family: 'Pacifico', cursive;
+}
+
+.size-control {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  flex: 1;
+}
+
+.add-text-button {
+  padding: 10px;
+  border-radius: 20px;
+  background: #d4af37;
+  color: white;
+  border: none;
+  font-family: 'Pacifico', cursive;
+  cursor: pointer;
+  width: 100%;
+}
+
+.capture-button {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  margin-top: 10px;
+}
+
+/* Add a preview image for filter demos */
+/* Create a file at src/assets/preview-face.jpg with a simple face image */
+
+/* Add these styles for the photo strip functionality */
+.strip-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  background: rgba(255, 204, 230, 0.8);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.strip-container.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.strip-canvas {
+  display: block;
+  max-height: 80vh;
+  max-width: 60%;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border: 15px solid white;
+  box-shadow: 0 0 30px rgba(255, 102, 178, 0.5);
+}
+
+.strip-canvas.show {
+  opacity: 1;
+}
+
+.strip-preview-controls {
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  width: 250px;
+  box-shadow: 0 0 20px rgba(255, 102, 178, 0.3);
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.strip-preview-controls h3 {
+  font-family: 'Pacifico', cursive;
+  color: #ff66b2;
+  margin: 0 0 10px 0;
+  text-align: center;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-group label {
+  font-family: 'Pacifico', cursive;
+  color: #333;
+}
+
+.control-group input[type="color"] {
+  width: 100%;
+  height: 40px;
+  border: 2px solid #ffccff;
+  border-radius: 8px;
+}
+
+.design-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.design-button {
+  padding: 8px;
+  border: 2px solid #ffccff;
+  border-radius: 8px;
+  background: white;
+  font-family: 'Pacifico', cursive;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.design-button.active {
+  background: #ff99cc;
+  color: white;
+}
+
+.preview-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.preview-button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  font-family: 'Pacifico', cursive;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.preview-button:hover {
+  transform: scale(1.05);
+}
+
+.preview-button.download {
+  background: #cc99ff;
+  color: white;
+}
+
+.preview-button.cancel {
+  background: #ff99cc;
+  color: white;
+}
