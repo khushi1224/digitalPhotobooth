@@ -82,6 +82,8 @@ const CameraPage = () => {
   const [stripColor, setStripColor] = useState('#ffcce6');
   const [stripDesign, setStripDesign] = useState('classic');
   const [timerEnabled, setTimerEnabled] = useState(false);
+  const [isCameraActive, setIsCameraActive] = useState(false);
+  const [error, setError] = useState('');
 
   // Define strip design options
   const STRIP_DESIGNS = {
@@ -126,30 +128,62 @@ const CameraPage = () => {
     }
   };
 
-  useEffect(() => {
-    const startCamera = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { 
-            width: 640,
-            height: 480,
-            facingMode: 'user'
-          } 
-        });
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      } catch (err) {
-        console.error("Error accessing camera:", err);
-      }
-    };
+  // Add this function near the top of your component to detect mobile devices
+  const isMobile = () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  };
 
+  // Update your camera initialization code
+  const startCamera = async () => {
+    try {
+      const constraints = {
+        video: {
+          facingMode: 'user', // Use front camera on mobile
+          width: { ideal: isMobile() ? 720 : 1280 },
+          height: { ideal: isMobile() ? 1280 : 720 }
+        }
+      };
+      
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        setIsCameraActive(true);
+      }
+    } catch (error) {
+      console.error('Error accessing camera:', error);
+      setError('Could not access camera. Please ensure you have granted camera permissions.');
+    }
+  };
+
+  useEffect(() => {
     startCamera();
 
     return () => {
       if (videoRef.current?.srcObject) {
         videoRef.current.srcObject.getTracks().forEach(track => track.stop());
       }
+    };
+  }, []);
+
+  // Add touch event handlers to buttons
+  useEffect(() => {
+    const buttons = document.querySelectorAll('button');
+    
+    const handleTouchStart = (e) => {
+      // Prevent zooming on double-tap
+      e.preventDefault();
+      e.target.click();
+    };
+    
+    buttons.forEach(button => {
+      button.addEventListener('touchstart', handleTouchStart, { passive: false });
+    });
+    
+    return () => {
+      buttons.forEach(button => {
+        button.removeEventListener('touchstart', handleTouchStart);
+      });
     };
   }, []);
 
@@ -833,6 +867,83 @@ const CameraPage = () => {
       renderPhotoStrip();
     }
   }, [stripColor, stripDesign, stripPreviewMode]);
+
+  // Add this CSS to your component's style section or in a separate CSS file
+  // Add this at the end of your component file
+  const mobileStyles = `
+    @media (max-width: 768px) {
+      .camera-container {
+        width: 100%;
+        padding: 0;
+      }
+      
+      .video-container {
+        width: 100%;
+        height: auto;
+      }
+      
+      .controls {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .design-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .design-option {
+        padding: 10px;
+        font-size: 14px;
+        margin: 3px;
+      }
+      
+      .customize-section {
+        padding: 10px;
+      }
+      
+      .photo-strip-container {
+        width: 100%;
+        overflow-x: auto;
+      }
+      
+      .captured-photos {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .captured-photo {
+        width: 80px;
+        height: 80px;
+        margin: 5px;
+      }
+    }
+  `;
+
+  // Add this right before your component's return statement
+  useEffect(() => {
+    // Inject mobile styles
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = mobileStyles;
+    document.head.appendChild(styleElement);
+    
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
+
+  // Add meta viewport tag to ensure proper scaling
+  useEffect(() => {
+    const metaViewport = document.querySelector('meta[name=viewport]');
+    if (!metaViewport) {
+      const meta = document.createElement('meta');
+      meta.name = 'viewport';
+      meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+      document.head.appendChild(meta);
+    } else {
+      metaViewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+    }
+  }, []);
 
   return (
     <div className="camera-page">
