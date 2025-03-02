@@ -69,15 +69,12 @@ Ensure you have the following installed:
 - Media Capture and Streams API
 - CSS3
 
-## 📝 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgements
 - Inspired by classic photo booth experiences
-- Thanks to all contributors who have helped shape this project
 
 ## 📧 Contact
-For questions or feedback, please open an issue on GitHub or contact **your-email@example.com**.
+For questions or feedback, please open an issue on GitHub
 
 ---
 Enjoy creating beautiful memories with **Photobooth App**! 💖
